@@ -1,0 +1,134 @@
+<!DOCTYPE html>
+<html>
+<head>
+	<title>Badge Design</title>
+	<link rel="stylesheet" type="text/css" href="https://stackpath.bootstrapcdn.com/bootstrap/4.2.1/css/bootstrap.min.css">
+	<style type="text/css">
+	#prev_div {
+		width: 100%;
+	}
+		#prev_namesurname {
+			padding-top:80px;
+			padding-left: 40px;
+			font-size: 25px;
+		}
+
+		#prev_photo{
+			width: 100%;
+		}
+	</style>
+</head>
+<body>
+<div class="container row">
+
+	<div class="col-md-6 offset-md-1">
+		<form >
+			<div class="form-group">
+				<label>Name:</label>
+				<input type="text" name="" id="name" class="form-control">
+			</div>
+			<div class="form-group">
+				<label>Surname:</label>
+				<input type="text" name="" id="surname" class="form-control">
+			</div>
+			<div class="form-group">
+				<label>Person Photo preview:</label>
+				<img id="photo_img" width="130" height="140">
+			</div>
+			<div class="form-group">
+				<label>Select photo:</label>
+				<input type="file" name="" id="photo" class="form-control">
+			</div>
+			<div class="form-group">
+				<label>Age:</label>
+				<input type="number" name="" id="age" class="form-control">
+			</div>
+			<div class="form-group">
+				<label>Bg preview:</label>
+				<img  id="bg_img"  width="130" height="140">
+			</div>
+			<div class="form-group">
+				<label>Select background:</label>
+				<input type="file" name="" id="bg" class="form-control">
+			</div>
+			<div class="form-group">
+				<label>Select position:</label>
+				<select class="form-control">
+					<option>Judge</option>
+					<option>Gymnast</option>
+					<option>UEG</option>
+					<option>Sponsor</option>
+				</select>
+			</div>
+			<button id="create_btn"  type="submit" class="btn btn-warning">Create</button>
+		</form>
+	</div>
+	<div class="col-md-3">
+		<div id="prev_div" style="width: 476px;height: 692px;" class="preview-data">
+			<div class="form-group">
+				<p id="prev_namesurname"></p>
+			</div>
+			<div class="form-group">
+				<div class="col-md-6">
+					<img id="prev_photo">
+				</div>
+				
+			</div>
+			<div class="form-group">
+				<img src="">
+			</div>
+		</div>
+	</div>
+</div>
+
+<script type="text/javascript">
+
+var bgImagePath = null;
+
+function previewFile(id,targetElement) {
+      let fileReader = new FileReader();
+      fileReader.readAsDataURL(targetElement.files[0]);
+      fileReader.onload = function() {
+      	document.getElementById(id).setAttribute("src",fileReader.result);
+      }
+}
+
+
+  //when bg item changed
+  document.getElementById("bg").addEventListener("change",function(e) {
+      let currentElement = e.target;
+      //get file name
+      bgImagePath = e.target.files[0].name;
+      previewFile("bg_img",currentElement);
+   
+  });
+
+
+ //when photo item changed
+  document.getElementById("photo").addEventListener("change",function(e) {
+      let currentElement = e.target;
+      previewFile("photo_img",currentElement);
+   
+  });
+
+//when button clicked
+document.getElementById("create_btn").addEventListener("click",function(e) {
+	e.preventDefault();
+
+	//add bg image
+	let bg_path = `url('img/${bgImagePath}')`;
+    document.getElementById("prev_div").style.backgroundImage = bg_path;
+
+     let name = document.getElementById("name").value;
+    let surname=  document.getElementById("surname").value;
+    document.getElementById("prev_namesurname").innerHTML = `<strong>${name+" "+surname}</strong>`;
+
+
+
+    let currentElement = document.getElementById("photo");
+    previewFile("prev_photo",currentElement);
+});
+
+</script>
+</body>
+</html>
